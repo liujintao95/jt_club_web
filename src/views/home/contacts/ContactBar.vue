@@ -1,7 +1,3 @@
-<script setup lang="ts">
-import ContactList from "@/components/home/contacts/ContactList.vue"
-</script>
-
 <template>
 <div class="contact_bar">
   <el-row class="top">
@@ -11,6 +7,12 @@ import ContactList from "@/components/home/contacts/ContactList.vue"
   <ContactList class="list"/>
 </div>
 </template>
+
+<script setup lang="ts">
+import ContactList from "@/views/home/contacts/ContactList.vue"
+import {ref} from "vue";
+const input = ref<string>()
+</script>
 
 <style scoped lang="scss">
 .contact_bar {

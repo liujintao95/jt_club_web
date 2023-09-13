@@ -1,8 +1,46 @@
+<template>
+  <div class="login_container">
+    <div class="background">
+      <div class="login">
+        <div class="form-logo">
+          <img src="../../assets/logo.svg" alt="Amazing" />
+        </div>
+        <div class="platform">锦涛社</div>
+        <el-form
+            ref="ruleFormRef"
+            :model="ruleForm"
+            :rules="rules"
+            label-width="45px"
+            class="demo-ruleForm"
+        >
+          <el-form-item label="账号" prop="account">
+            <el-input v-model="ruleForm.account"></el-input>
+          </el-form-item>
+          <el-form-item label="密码" prop="password">
+            <el-input
+                type="password"
+                v-model="ruleForm.password"
+                @keyup.enter="login()"
+            ></el-input>
+          </el-form-item>
+        </el-form>
+        <el-button
+            type="warning"
+            @click="login()"
+            style="width: 100%; margin: 15px 0 0 0"
+        >登录
+        </el-button>
+      </div>
+    </div>
+  </div>
+</template>
+
 <script setup lang="ts">
 import {ref, reactive} from 'vue'
-import api from "@/api";
+import api from "@/api/login/login";
 import router from "@/router";
 import type { FormInstance, FormRules } from 'element-plus';
+import type { LoginReq } from '@/api/login/model/login';
 
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
@@ -33,54 +71,19 @@ const rules = reactive<FormRules<typeof ruleForm>>({
   password: [{validator: validatePass, trigger: "blur"}],
 })
 const login = () => {
-  const data = {
+  const data: LoginReq =  {
     account: ruleForm.account,
     password: ruleForm.password,
   }
-  api.login(data).then(() => {
+  api.login(data).then((res) => {
+    let data = res.data.data
+    localStorage.setItem("Authorization", `${data.type} ${data.token}`)
     router.push({path: "/home"})
   }).catch(err => {
     console.log(err)
   })
 }
 </script>
-
-<template>
-  <div class="login_container">
-    <div class="background">
-      <div class="login">
-        <div class="form-logo">
-          <img src="@/assets/logo.svg" alt="Amazing" />
-        </div>
-        <div class="platform">锦涛社</div>
-        <el-form
-            ref="ruleFormRef"
-            :model="ruleForm"
-            :rules="rules"
-            label-width="45px"
-            class="demo-ruleForm"
-        >
-          <el-form-item label="账号" prop="account">
-            <el-input v-model="ruleForm.account"></el-input>
-          </el-form-item>
-          <el-form-item label="密码" prop="password">
-            <el-input
-                type="password"
-                v-model="ruleForm.password"
-                @keyup.enter="login()"
-            ></el-input>
-          </el-form-item>
-        </el-form>
-        <el-button
-            type="info"
-            @click="login()"
-            style="width: 100%; margin: 15px 0 0 0"
-        >登录
-        </el-button>
-      </div>
-    </div>
-  </div>
-</template>
 
 <style lang='scss' scoped>
 .login_container {

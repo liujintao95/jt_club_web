@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import ContactBar from "@/components/home/contacts/ContactBar.vue"
-import ChatBar from "@/components/home/chat/ChatBar.vue"
+import ContactBar from "@/views/home/contacts/ContactBar.vue"
+import ChatBar from "@/views/home/chat/ChatBar.vue"
 </script>
 
 <template>

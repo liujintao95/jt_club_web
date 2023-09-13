@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import ChatTop from "@/components/home/chat/ChatTop.vue"
-import ChatContent from "@/components/home/chat/ChatContent.vue"
-import ChatFoot from "@/components/home/chat/ChatFoot.vue"
+import ChatTop from "@/views/home/chat/ChatTop.vue"
+import ChatContent from "@/views/home/chat/ChatContent.vue"
+import ChatFoot from "@/views/home/chat/ChatFoot.vue"
 </script>
 
 <template>
