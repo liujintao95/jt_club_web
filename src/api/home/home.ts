@@ -1,5 +1,5 @@
 import service from '@/utils/request'
-import type {ContactListRes, ContactListReq} from "@/api/home/model/home";
+import type {ContactListReq} from "@/api/home/model/home";
 
 
 export default {

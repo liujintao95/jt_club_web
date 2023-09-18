@@ -25,7 +25,7 @@ function useStore () {
   const state = createState({
     contactPage: 1,
     contactSize: 20,
-    nameOrId: null,
+    nameOrId: "",
     contactsData: {},
   })
 
@@ -60,7 +60,6 @@ function useStore () {
           }
           contactsData.contacts.push(contact)
         }
-        console.log(contactsData)
         this.set("contactsData", contactsData)
       }).catch((err) => {
         ElMessage.error(err.response.data.message)
