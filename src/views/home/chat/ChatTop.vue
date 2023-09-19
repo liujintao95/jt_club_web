@@ -1,15 +1,28 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
 <div class="chat_top">
   <el-row class="top">
-    <el-col :span="23" class="name">张三</el-col>
-    <el-col :span="1" class="option"><el-icon><MoreFilled /></el-icon></el-col>
+    <el-col :span="23" class="name">{{ currentContact.contact_notes }}</el-col>
+    <el-col :span="1" class="option">
+      <el-dropdown trigger="click">
+        <el-icon><MoreFilled /></el-icon>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>Action 1</el-dropdown-item>
+            <el-dropdown-item>Action 2</el-dropdown-item>
+            <el-dropdown-item>Action 3</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    </el-col>
   </el-row>
 </div>
 </template>
+
+<script setup lang="ts">
+import {inject} from "vue";
+const store = inject('store')
+const {currentContact} = store.state
+</script>
 
 <style scoped lang="scss">
 .chat_top{

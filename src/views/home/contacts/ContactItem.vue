@@ -16,13 +16,15 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, toRefs } from 'vue'
-import type { ContactItem } from './store'
+import { ref, reactive, inject } from 'vue'
+import type { ContactItem } from '../store'
 interface Props {
   contact: ContactItem
 }
-defineProps<Props>()
+const props = defineProps<Props>()
+const store = inject('store')
 const defaultAvatar = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
+const hover = ref("")
 </script>
 
 <style scoped lang="scss">
@@ -45,6 +47,5 @@ const defaultAvatar = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726
       opacity: 0.6;
     }
   }
-
 }
 </style>

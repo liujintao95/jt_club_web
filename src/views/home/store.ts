@@ -1,6 +1,5 @@
 import api from '@/api/home/home'
 import { createState, createStore } from '@/hooks/store'
-import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import {ContactsType} from '@/consts/consts'
 
@@ -25,16 +24,16 @@ function useStore () {
   const state = createState({
     contactPage: 1,
     contactSize: 20,
-    nameOrId: "",
     contactsData: {},
+    currentContact: {},
   })
 
   const actions = {
-    showContacts () {
+    showContacts (nameOrId) {
       const params = {
         page: state.contactPage.value,
         size: state.contactSize.value,
-        name_or_id: state.nameOrId.value,
+        name_or_id: nameOrId,
       }
       api.GetContactList(params).then(res => {
         const contactsData: ContactListRes = {
@@ -60,11 +59,14 @@ function useStore () {
           }
           contactsData.contacts.push(contact)
         }
-        this.set("contactsData", contactsData)
+        state.contactsData.value = contactsData
       }).catch((err) => {
         ElMessage.error(err.response.data.message)
       })
     },
+    changeCurrentContact(contact: ContactItem) {
+      state.currentContact.value = contact
+    }
   }
 
   return createStore(state, actions)

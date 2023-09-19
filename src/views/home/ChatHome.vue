@@ -1,8 +1,3 @@
-<script setup lang="ts">
-import ContactBar from "@/views/home/contacts/ContactBar.vue"
-import ChatBar from "@/views/home/chat/ChatBar.vue"
-</script>
-
 <template>
   <div class="chat_home">
     <el-container class="common-layout">
@@ -15,6 +10,15 @@ import ChatBar from "@/views/home/chat/ChatBar.vue"
     </el-container>
   </div>
 </template>
+
+<script setup lang="ts">
+import { provide, toRefs } from 'vue'
+import ContactBar from "@/views/home/contacts/ContactBar.vue"
+import ChatBar from "@/views/home/chat/ChatBar.vue"
+import useStore from './store'
+const store = useStore()
+provide('store', store)
+</script>
 
 <style scoped>
 .chat_home {
