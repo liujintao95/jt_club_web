@@ -17,14 +17,12 @@
 
 <script setup lang="ts">
 import { ref, reactive, inject } from 'vue'
-import type { ContactItem } from '../store'
+import type { IContactItem } from '@/store/type'
 interface Props {
-  contact: ContactItem
+  contact: IContactItem
 }
-const props = defineProps<Props>()
-const store = inject('store')
+defineProps<Props>()
 const defaultAvatar = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
-const hover = ref("")
 </script>
 
 <style scoped lang="scss">

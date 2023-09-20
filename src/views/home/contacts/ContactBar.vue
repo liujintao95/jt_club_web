@@ -13,21 +13,20 @@
     </el-dropdown>
     <el-input class="search" v-model="input" @keyup.enter="searchContact()" placeholder="Search" />
   </el-row>
-  <ContactList class="list"/>
+  <ContactList class="list" :contacts="contacts"/>
 </div>
 </template>
 
 <script setup lang="ts">
 import ContactList from "@/views/home/contacts/ContactList.vue"
-import {ref, inject} from "vue";
-
-const store = inject('store')
-const { nameOrId } = store.state
+import {ref} from "vue";
+import {store} from "@/store"
 const input = ref<string>()
-
+const contacts = store.getters["chat/getContacts"]
 const searchContact = () => {
-  store.commit('showContacts', input.value)
+  store.dispatch("chat/setContacts", input.value)
 }
+store.dispatch("chat/setContacts")
 </script>
 
 <style scoped lang="scss">

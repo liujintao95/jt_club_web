@@ -15,9 +15,6 @@
 import { provide, toRefs } from 'vue'
 import ContactBar from "@/views/home/contacts/ContactBar.vue"
 import ChatBar from "@/views/home/chat/ChatBar.vue"
-import useStore from './store'
-const store = useStore()
-provide('store', store)
 </script>
 
 <style scoped>
