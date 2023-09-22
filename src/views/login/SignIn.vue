@@ -36,11 +36,13 @@
 </template>
 
 <script setup lang="ts">
-import {ref, reactive} from 'vue'
-import api from "@/api/login/login";
-import router from "@/router";
+import {ref, reactive} from 'vue';
+import Router from "@/router";
+import Api from "@/api/login";
+import Websocket from "@/utils/websocket";
 import type { FormInstance, FormRules } from 'element-plus';
 import type { LoginReq } from '@/api/login/model/login';
+import {ElNotification} from "element-plus";
 
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
@@ -75,12 +77,19 @@ const login = () => {
     account: ruleForm.account,
     password: ruleForm.password,
   }
-  api.login(data).then((res) => {
-    let data = res.data.data
-    localStorage.setItem("Authorization", `${data.type} ${data.token}`)
-    router.push({path: "/home"})
+  Api.login(data).then((res) => {
+    let user = res.data.data
+    Websocket.initWebSocket(user.token)
+    localStorage.setItem("Authorization", `${user.type} ${user.token}`)
+    Router.push({path: "/home"})
   }).catch(err => {
     console.log(err)
+    ElNotification({
+      title: '',
+      message: "登录错误：" + err,
+      type: 'error',
+      duration: 0,
+    });
   })
 }
 </script>

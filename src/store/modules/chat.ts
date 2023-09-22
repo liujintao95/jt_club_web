@@ -1,5 +1,5 @@
 import type {RootState} from '@/store'
-import api from "@/api/home/home"
+import api from "@/api/user"
 import {ElMessage} from "element-plus"
 import {ContactsType} from "@/consts/consts"
 import type {IContactItem} from "@/store/type"
