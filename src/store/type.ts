@@ -6,4 +6,5 @@ export interface IContactItem {
     avatar: string,
     last_msg: string,
     last_time: string,
+    new_msg_count: number,
 }

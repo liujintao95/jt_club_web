@@ -39,7 +39,6 @@ export const actions = {
             const res = await api.GetContactList({
                 name_or_id: nameOrId
             })
-            console.log(res)
             const contacts: IContactItem[] = []
             for (const contact_res of res.data.data.contacts) {
                 const contact: IContactItem = {
