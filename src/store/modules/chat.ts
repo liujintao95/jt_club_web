@@ -1,9 +1,10 @@
 import type {RootState} from '@/store'
 import api from "@/api/user"
 import {ElMessage} from "element-plus"
-import {ContactsType} from "@/consts/consts"
+import {ContactType, ResCode} from "@/consts/consts"
 import type {IContactItem, IUser} from "@/store/type"
 import type {ActionContext} from 'vuex'
+import Router from "@/router";
 
 // 定义menu模块下的，state的类型
 export type ChatState = {
@@ -45,6 +46,7 @@ export const actions = {
                 name_or_id: nameOrId
             })
             const contacts: IContactItem[] = []
+            console.log(res)
             for (const contact_res of res.data.data.contacts) {
                 const contact: IContactItem = {
                     contact_id: contact_res.contact_id,
@@ -53,7 +55,7 @@ export const actions = {
                     last_msg: contact_res.last_msg,
                     last_time: contact_res.last_time
                 }
-                if (contact_res.contact_type == ContactsType.User) {
+                if (contact_res.contact_type == ContactType.User) {
                     contact.contact_name = contact_res.user.name
                     contact.avatar = contact_res.user.avatar
                 } else {
@@ -65,7 +67,10 @@ export const actions = {
             commit("setContacts", contacts)
         } catch (err) {
             console.log(err)
-            ElMessage.error(err.response.data.message)
+            ElMessage.error(err.response.data.msg)
+            if (err.response.data.code===ResCode.Unauthorized) {
+                await Router.push({path: "/"})
+            }
         }
     },
 }

@@ -17,27 +17,3 @@ export interface IUser {
     token: string,
     authorization: string,
 }
-
-export enum ContentType {
-    Text,
-    File,
-    Picture,
-    Audio,
-    Video,
-}
-
-export enum MessageType {
-    Single = ContactType.User,
-    Group = ContactType.Group,
-}
-
-export enum TransportType {
-    HeatBeat = "heatbeat",
-    WebRTC = "webrtc",
-    Normal = "normal",
-}
-
-export enum ContactType {
-    User,
-    Group
-}

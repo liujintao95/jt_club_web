@@ -20,7 +20,7 @@
       />
     </div>
     <div class="send_button">
-      <el-button type="primary" @click="sendMsg">发送</el-button>
+      <el-button type="primary" @click="sendMsg()">发送</el-button>
     </div>
   </div>
 </template>
@@ -30,11 +30,11 @@ import {reactive, ref} from 'vue'
 import type {Message} from "@/utils/protobuf/message";
 import {store} from "@/store"
 import Websocket from "@/utils/websocket";
-import {ContentType, MessageType, TransportType} from "@/store/type";
+import {ContentType, TransportType} from "@/consts/consts";
 
-const input_msg = ref('')
 const contact = store.state.chat.currentContact
 const user = store.state.chat.user
+const input_msg = ref('')
 
 const sendMsg = ()=>{
   const msg:Message = {
@@ -42,12 +42,13 @@ const sendMsg = ()=>{
     fromUsername: user.name,
     from: user.uid,
     to: contact.contact_id,
-    content: input_msg,
+    content: input_msg.value,
     contentType: ContentType.Text,
     type: TransportType.Normal,
     messageType: contact.contact_type,
   }
   Websocket.webSocketSend(msg)
+  input_msg.value = ""
 }
 </script>
 
