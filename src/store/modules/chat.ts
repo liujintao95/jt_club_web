@@ -2,7 +2,7 @@ import type {RootState} from '@/store'
 import api from "@/api/user"
 import {ElMessage} from "element-plus"
 import {ContactsType} from "@/consts/consts"
-import type {IContactItem} from "@/store/type"
+import type {IContactItem, IUser} from "@/store/type"
 import type {ActionContext} from 'vuex'
 
 // 定义menu模块下的，state的类型
@@ -10,6 +10,7 @@ export type ChatState = {
     contactCount: number;
     contacts: IContactItem[],
     currentContact: IContactItem,
+    user: IUser,
 }
 
 // 定义menu模块下的state
@@ -17,6 +18,7 @@ export const state: ChatState = {
     contactCount: 0,
     contacts: [],
     currentContact: {},
+    user: {},
 }
 // 定义menu模块下的mutations
 export const mutations = {
@@ -31,6 +33,9 @@ export const mutations = {
     setCurrentContact(state: ChatState, currentContact: IContactItem): void {
         state.currentContact = currentContact
     },
+    setUser(state: ChatState, user: IUser): void {
+        state.user = user
+    }
 }
 // 定义menu模块下的actions
 export const actions = {
@@ -75,6 +80,9 @@ export const getters = {
     getCurrentContact(state: ChatState): IContactItem {
         return state.currentContact
     },
+    getUser(state: ChatState): IContactItem {
+        return state.user
+    }
 }
 
 

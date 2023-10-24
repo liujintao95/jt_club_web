@@ -43,6 +43,8 @@ import Websocket from "@/utils/websocket";
 import type { FormInstance, FormRules } from 'element-plus';
 import type { LoginReq } from '@/api/login/model/login';
 import {ElNotification} from "element-plus";
+import {store} from "@/store";
+import type {IUser} from "@/store/type";
 
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
@@ -78,10 +80,27 @@ const login = () => {
     password: ruleForm.password,
   }
   Api.login(data).then((res) => {
-    let user = res.data.data
-    Websocket.initWebSocket(user.token)
-    localStorage.setItem("Authorization", `${user.type} ${user.token}`)
-    Router.push({path: "/home"})
+    if (res.data.code === 0) {
+      let data = res.data.data
+      let user: IUser = {
+        uid: data.uid,
+        name: data.name,
+        avatar: data.avatar,
+        email: data.email,
+        token: data.token,
+        authorization: `${data.type} ${data.token}`,
+      }
+      store.commit("chat/setUser", user)
+      Websocket.initWebSocket(user.token)
+      Router.push({path: "/home"})
+    } else {
+      ElNotification({
+        title: '',
+        message: "登录错误：" + res.data.msg,
+        type: 'error',
+        duration: 0,
+      });
+    }
   }).catch(err => {
     console.log(err)
     ElNotification({

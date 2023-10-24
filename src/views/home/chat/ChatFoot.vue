@@ -20,15 +20,35 @@
       />
     </div>
     <div class="send_button">
-      <el-button type="primary">发送</el-button>
+      <el-button type="primary" @click="sendMsg">发送</el-button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue'
+import {reactive, ref} from 'vue'
+import type {Message} from "@/utils/protobuf/message";
+import {store} from "@/store"
+import Websocket from "@/utils/websocket";
+import {ContentType, MessageType, TransportType} from "@/store/type";
 
 const input_msg = ref('')
+const contact = store.state.chat.currentContact
+const user = store.state.chat.user
+
+const sendMsg = ()=>{
+  const msg:Message = {
+    avatar: user.avatar,
+    fromUsername: user.name,
+    from: user.uid,
+    to: contact.contact_id,
+    content: input_msg,
+    contentType: ContentType.Text,
+    type: TransportType.Normal,
+    messageType: contact.contact_type,
+  }
+  Websocket.webSocketSend(msg)
+}
 </script>
 
 <style scoped lang="scss">
@@ -52,5 +72,15 @@ const input_msg = ref('')
 .send_button {
   text-align: right;
   margin-right: 20px;
+}
+
+:deep(.el-textarea__inner) {
+  box-shadow: 0 0 0 0;
+}
+:deep(.el-textarea__inner:hover) {
+  box-shadow: 0 0 0 0;
+}
+:deep(.el-textarea__inner:focus) {
+  box-shadow: 0 0 0 0;
 }
 </style>

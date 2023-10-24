@@ -1,7 +1,9 @@
 import {decodeMessage} from "./protobuf/message"
+import type {Message} from "./protobuf/message"
 import {ElNotification} from "element-plus";
+import {TransportType} from "@/store/type";
 
-function initWebSocket(token) {
+function initWebSocket(token:string) {
     const urlToken = encodeURIComponent(token)
     const url = `ws://${import.meta.env.VITE_BASE_API}/chat/ws?token=${urlToken}`
     this.socket = new WebSocket(url)
@@ -22,7 +24,8 @@ function webSocketOnError(e) {
 async function webSocketOnMessage(e) {
     const data = new Uint8Array((await e.data.arrayBuffer()))
     const msg = decodeMessage(data)
-    if (msg.type === "normal") {
+    console.log("socket:"+msg)
+    if (msg.type === TransportType.Normal) {
         if (msg.from === "0000001") {
             ElNotification({
                 title: '管理员消息',
@@ -47,7 +50,7 @@ function close() {
     }
 }
 
-function webSocketSend(agentData) {
+function webSocketSend(agentData:Message) {
     this.socket.send(agentData);
 }
 

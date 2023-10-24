@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {store} from "@/store";
 
 const service = axios.create({
     baseURL: `http://${import.meta.env.VITE_BASE_API}`
@@ -6,9 +7,8 @@ const service = axios.create({
 
 service.interceptors.request.use(
     config => {
-        const Authorization = localStorage.getItem("Authorization")
-        if (Authorization) {
-            config.headers.Authorization = Authorization
+        if (store.state.chat.user) {
+            config.headers.Authorization = store.state.chat.user.authorization
         }
         return config
     },

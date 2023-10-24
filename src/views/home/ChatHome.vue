@@ -12,7 +12,6 @@
 </template>
 
 <script setup lang="ts">
-import { provide, toRefs } from 'vue'
 import ContactBar from "@/views/home/contacts/ContactBar.vue"
 import ChatBar from "@/views/home/chat/ChatBar.vue"
 </script>
