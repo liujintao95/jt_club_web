@@ -46,7 +46,6 @@ export const actions = {
                 name_or_id: nameOrId
             })
             const contacts: IContactItem[] = []
-            console.log(res)
             for (const contact_res of res.data.data.contacts) {
                 const contact: IContactItem = {
                     contact_id: contact_res.contact_id,
@@ -68,9 +67,6 @@ export const actions = {
         } catch (err) {
             console.log(err)
             ElMessage.error(err.response.data.msg)
-            if (err.response.data.code===ResCode.Unauthorized) {
-                await Router.push({path: "/"})
-            }
         }
     },
 }

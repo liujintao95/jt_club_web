@@ -1,5 +1,8 @@
 import axios from 'axios'
 import {store} from "@/store";
+import {ResCode} from "@/consts/consts";
+import Router from "@/router";
+import {ElMessage} from "element-plus";
 
 const service = axios.create({
     baseURL: `http://${import.meta.env.VITE_BASE_API}`
@@ -13,7 +16,12 @@ service.interceptors.request.use(
         return config
     },
     error => {
-        return Promise.reject(error)
+        if (error.response.data.code===ResCode.Unauthorized) {
+            ElMessage.error(error.response.data.msg)
+            Router.push({path: "/"})
+        } else {
+            return Promise.reject(error)
+        }
     }
 )
 
