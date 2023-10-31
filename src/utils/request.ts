@@ -14,14 +14,6 @@ service.interceptors.request.use(
             config.headers.Authorization = store.state.chat.user.authorization
         }
         return config
-    },
-    error => {
-        if (error.response.data.code===ResCode.Unauthorized) {
-            ElMessage.error(error.response.data.msg)
-            Router.push({path: "/"})
-        } else {
-            return Promise.reject(error)
-        }
     }
 )
 
@@ -30,7 +22,12 @@ service.interceptors.response.use(
         return response
     },
     error => {
-        return Promise.reject(error)
+        if (error.response.data.code === ResCode.Unauthorized) {
+            ElMessage.error(error.response.data.msg)
+            Router.push({path: "/"})
+        } else {
+            return Promise.reject(error)
+        }
     }
 )
 

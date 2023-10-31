@@ -37,6 +37,7 @@ const user = store.state.chat.user
 const input_msg = ref('')
 
 const sendMsg = ()=>{
+  const now = new Date()
   const msg:Message = {
     avatar: user.avatar,
     fromUsername: user.name,
@@ -48,6 +49,9 @@ const sendMsg = ()=>{
     messageType: contact.contact_type,
   }
   Websocket.webSocketSend(msg)
+  contact.messages.push(msg)
+  contact.last_msg = input_msg.value
+  contact.last_time = `${now.getHours()}:${now.getMinutes()}`
   input_msg.value = ""
 }
 </script>

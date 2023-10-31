@@ -47,12 +47,25 @@ export const actions = {
             })
             const contacts: IContactItem[] = []
             for (const contact_res of res.data.data.contacts) {
+                let show_time
+                if (contact_res.last_time) {
+                    const now = new Date()
+                    const last = new Date(contact_res.last_time)
+                    const now_date = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`
+                    const last_date = `${last.getFullYear()}-${last.getMonth()}-${last.getDate()}`
+                    if (now_date === last_date) {
+                        show_time = `${last.getHours()}:${last.getMinutes()}`
+                    } else {
+                        show_time = last_date
+                    }
+                }
                 const contact: IContactItem = {
                     contact_id: contact_res.contact_id,
                     contact_type: contact_res.contact_type,
                     contact_notes: contact_res.contact_notes,
                     last_msg: contact_res.last_msg,
-                    last_time: contact_res.last_time
+                    last_time: show_time,
+                    messages: []
                 }
                 if (contact_res.contact_type == ContactType.User) {
                     contact.contact_name = contact_res.user.name
