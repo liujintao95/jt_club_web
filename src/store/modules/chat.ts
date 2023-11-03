@@ -33,9 +33,16 @@ export const mutations = {
     },
     setCurrentContact(state: ChatState, currentContact: IContactItem): void {
         state.currentContact = currentContact
+        state.currentContact.new_msg_count = 0
     },
     setUser(state: ChatState, user: IUser): void {
         state.user = user
+    },
+    setMessageToHead() {
+
+    },
+    setMessageToTail() {
+
     }
 }
 // 定义menu模块下的actions
@@ -63,8 +70,11 @@ export const actions = {
                     contact_id: contact_res.contact_id,
                     contact_type: contact_res.contact_type,
                     contact_notes: contact_res.contact_notes,
+                    last_msg_id: contact_res.last_msg_id,
                     last_msg: contact_res.last_msg,
                     last_time: show_time,
+                    new_msg_count: contact_res.new_msg_count,
+                    page:1,
                     messages: []
                 }
                 if (contact_res.contact_type == ContactType.User) {
@@ -82,6 +92,10 @@ export const actions = {
             ElMessage.error(err.response.data.msg)
         }
     },
+
+    async setHistoryMessage({commit}: ActionContext<ChatState, RootState>, contactId: string, messageId: string) {
+
+    }
 }
 // 定义menu模块下的getters
 export const getters = {
